@@ -58,7 +58,7 @@ export const createQuoteRequest = (
     refundTo: 'refunds.intear.near',
     refundType: 'INTENTS',
     recipient,
-    recipientType: 'INTENTS',
+    recipientType: parseFloat(amount) >= 1_000_000 ? 'DESTINATION_CHAIN' : 'INTENTS',
     deadline: deadline.toISOString(),
     referral: 'tearpay.intear.near',
   };
