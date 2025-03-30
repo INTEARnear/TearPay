@@ -60,7 +60,7 @@ const Invoice: React.FC<InvoiceProps> = ({ amountUsd, invoiceId, recipientAddres
       const quoteRequest = createQuoteRequest(
         token.assetId,
         `nep141:${USDC_ACCOUNT_ID}`,
-        Math.floor(amountUsd * Math.pow(10, token.decimals)).toString(),
+        Math.floor(amountUsd * 10e6).toString(),
         recipientAddress,
       );
 
