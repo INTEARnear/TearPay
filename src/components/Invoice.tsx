@@ -180,11 +180,44 @@ const Invoice: React.FC<InvoiceProps> = ({ amountUsd, invoiceId, recipientAddres
 
   return (
     <div className="max-w-7xl mx-auto bg-gray-900 rounded-xl shadow-lg overflow-hidden">
-      <div className="flex">
-        {/* Left side - Currency selector or deposit info */}
-        <div className="w-2/3 relative">
+      <div className="flex flex-col md:flex-row">
+        {/* Amount section - now on top for mobile */}
+        <div className="w-full md:w-1/3 p-6 md:p-12 flex flex-col items-center justify-center bg-gray-800 relative order-first md:order-last">
+          {onCancel && (
+            <button
+              onClick={onCancel}
+              className="absolute top-6 right-6 p-2 text-gray-400 hover:text-white transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+          <div className="text-center">
+            <div className="text-gray-400 mb-3 text-lg">Amount</div>
+            <div className="text-6xl font-bold text-white">${amountUsd.toFixed(2)}</div>
+          </div>
+          {showRecipient && (
+            <div className="mt-8 text-center">
+              <div
+                className="text-white font-mono text-sm select-none cursor-not-allowed relative group"
+              >
+                {recipientAddress}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 max-w-[300px] z-50">
+                  <div className="relative">
+                    Don&apos;t pay to this address directly, use the form below
+                  </div>
+                </div>
+              </div>
+              <div className="text-gray-400 mt-2 text-sm">has created this invoice in TearPay. This user is not endorsed or affiliated with Intear, make sure you trust them before paying. Don&apos;t send tokens directly to this address, use the form below.</div>
+            </div>
+          )}
+        </div>
+
+        {/* Currency selector or deposit info - now on bottom for mobile */}
+        <div className="w-full md:w-2/3 relative">
           {isPaid ? (
-            <div className="p-12 text-center">
+            <div className="p-6 md:p-12 text-center">
               <div className="mb-6">
                 <svg className="mx-auto h-16 w-16 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -202,7 +235,7 @@ const Invoice: React.FC<InvoiceProps> = ({ amountUsd, invoiceId, recipientAddres
               )}
             </div>
           ) : selectedToken ? (
-            <div className="p-12">
+            <div className="p-6 md:p-12">
               <button
                 onClick={handleBack}
                 className="absolute top-6 left-6 p-2 text-gray-400 hover:text-white transition-colors"
@@ -211,7 +244,7 @@ const Invoice: React.FC<InvoiceProps> = ({ amountUsd, invoiceId, recipientAddres
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
               </button>
-              <div className="space-y-6 mt-8">
+              <div className="space-y-6 mt-12 md:mt-8">
                 <div>
                   <h3 className="text-xl font-semibold text-white mb-4">Payment Information</h3>
                   <div className="bg-gray-800 p-4 rounded-lg">
@@ -234,25 +267,29 @@ const Invoice: React.FC<InvoiceProps> = ({ amountUsd, invoiceId, recipientAddres
                         <div>
                           <label className="block text-sm font-medium text-gray-400">Deposit Address</label>
                           <div
-                            className="mt-1 text-white font-mono break-all cursor-pointer hover:bg-gray-700 p-2 rounded transition-colors flex items-center justify-between relative"
+                            className="mt-1 flex items-center justify-between p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors"
                             onClick={handleCopyAddress}
                           >
-                            <span>{quote?.quote.depositAddress}</span>
-                            <div className="flex items-center gap-2">
-                              {showCopied && (
-                                <span className="text-sm text-green-400 animate-fade-in-out">Copied!</span>
-                              )}
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                              </svg>
+                            <div className="flex-1 break-all mr-4">
+                              <span className="text-white font-mono">{quote?.quote.depositAddress}</span>
                             </div>
+                            <button className="flex-shrink-0 text-gray-400 hover:text-white transition-colors">
+                              {showCopied ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                              ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                </svg>
+                              )}
+                            </button>
                           </div>
                         </div>
                         {selectedToken.contractAddress && (
                           <div>
                             <label className="block text-sm font-medium text-gray-400">Token Contract Address</label>
                             <div className="mt-1 flex items-center gap-2">
-                              {selectedToken && <BlockchainIcon blockchain={selectedToken.blockchain} className="!w-4 !h-4" />}
                               <div className="text-white font-mono">
                                 {selectedToken.contractAddress.slice(0, 10)}...{selectedToken.contractAddress.slice(-8)}
                               </div>
@@ -292,39 +329,6 @@ const Invoice: React.FC<InvoiceProps> = ({ amountUsd, invoiceId, recipientAddres
                 onSelect={handleTokenSelect}
                 selectedToken={selectedToken}
               />
-            </div>
-          )}
-        </div>
-
-        {/* Right side - Amount */}
-        <div className="w-1/3 p-12 flex flex-col items-center justify-center bg-gray-800 relative">
-          {onCancel && (
-            <button
-              onClick={onCancel}
-              className="absolute top-6 right-6 p-2 text-gray-400 hover:text-white transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          )}
-          <div className="text-center">
-            <div className="text-gray-400 mb-3 text-lg">Amount</div>
-            <div className="text-6xl font-bold text-white">${amountUsd.toFixed(2)}</div>
-          </div>
-          {showRecipient && (
-            <div className="mt-8 text-center">
-              <div
-                className="text-white font-mono text-sm select-none cursor-not-allowed relative group"
-              >
-                {recipientAddress}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 max-w-[300px] z-50">
-                  <div className="relative">
-                    Don&apos;t pay to this address directly, use the form on the left
-                  </div>
-                </div>
-              </div>
-              <div className="text-gray-400 mt-2 text-sm">has created this invoice in TearPay. This user is not endorsed or affiliated with Intear, make sure you trust them before paying. Don&apos;t send tokens directly to this address, use the form on the left.</div>
             </div>
           )}
         </div>
@@ -473,7 +477,7 @@ const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   );
 
   return (
-    <div className="w-full bg-gray-900 p-6 rounded-xl">
+    <div className="w-full bg-gray-900 md:p-6 sm:p-2 rounded-xl">
       <div className="relative mb-6">
         <input
           type="text"
@@ -504,7 +508,7 @@ const CurrencySelector: React.FC<CurrencySelectorProps> = ({
                 />
               )}
               <div className="relative z-10">
-                <span className="font-medium text-2xl mb-2 block">{token.symbol}</span>
+                <span className={`font-medium ${token.symbol.length > 6 ? "text-md" : "text-2xl"} mb-2 block`}>{token.symbol}</span>
                 <div className="flex items-center justify-center">
                   <BlockchainIcon
                     blockchain={token.blockchain}
