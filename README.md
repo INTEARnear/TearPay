@@ -20,4 +20,4 @@ return (
 )
 ```
 
-slime spent twice as much time trying to publish this on npm than actually coding this, so fook it, just copy paste Invoice.tsx into your project.
+slime spent twice as much time trying to publish this on npm than actually coding this, so fook it, just copy paste Invoice.tsx into your project. Also install `qrcode.react` to generate QR codes.

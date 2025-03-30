@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 
 const USDC_ACCOUNT_ID = '17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1';
 
@@ -285,6 +286,18 @@ const Invoice: React.FC<InvoiceProps> = ({ amountUsd, invoiceId, recipientAddres
                               )}
                             </button>
                           </div>
+                          {quote?.quote.depositAddress && (
+                            <div className="mt-4 flex justify-center">
+                              <div className="p-4 bg-white rounded-lg">
+                                <QRCodeSVG
+                                  value={quote.quote.depositAddress}
+                                  size={200}
+                                  level="H"
+                                  includeMargin={true}
+                                />
+                              </div>
+                            </div>
+                          )}
                         </div>
                         {selectedToken.contractAddress && (
                           <div>
