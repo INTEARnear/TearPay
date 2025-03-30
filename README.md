@@ -13,7 +13,9 @@ return (
         invoiceId="123"
         recipientAddress="s1ime.near"
         redirectTo="https://example.com/" // optional
-        showRecipient={false}
+        showRecipient={false} // show the recipient account id and warning that the creator is not affiliated with TearPay
+        onSuccess={() => {}} // optional
+        onCancel={() => {}} // optional
     />
 )
 ```
