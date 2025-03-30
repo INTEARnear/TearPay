@@ -1,6 +1,6 @@
 # Tearpay
 
-Frontend component for NEAR Intents 1click API. Embed in your apps to accept crypto payments on 12+ blockchains.
+Frontend component for NEAR Intents 1click API. Embed in your apps to accept crypto payments on 12+ blockchains, and receive the payments automatically converted to USDC on NEAR.
 
 [Public Demo](https://tearpay-demo.intear.tech/?amountUsd=0.05&invoiceId=123&recipientAddress=s1ime.near&redirectTo=https://example.com)
 
